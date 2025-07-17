@@ -2,7 +2,7 @@
 
 ## Overview
 
-The system is a **console-based (CLI) Library Management System** written in Go. It supports:
+This is a **console-based (CLI) Library Management System** written in Go. It supports:
 
 - Managing book records (add/remove)
 - Registering library members
@@ -181,19 +181,6 @@ type Member struct {
   - Duplicate member registration
   - Attempted borrow of already borrowed book
   - Return of book not borrowed by the member
-
----
-
-## Extensibility & Improvements
-
-Possible future enhancements include:
-
-- **Data persistence** (database or file storage)
-- **Concurrency support** with thread safety
-- **Web or API frontend**
-- **Search & Filtering**, e.g., by title or author
-- **Loan policies** like due dates, borrowing limits, fines
-- **Member management** including updates and deletion
 
 ---
 
