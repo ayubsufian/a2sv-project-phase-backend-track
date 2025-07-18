@@ -39,10 +39,6 @@ go run main.go
 
 The server listens on http://localhost:8080.
 
-```
-
-```
-
 ## API Endpoints
 
 [API Documentation](https://documenter.getpostman.com/view/46809956/2sB34imLWd)
