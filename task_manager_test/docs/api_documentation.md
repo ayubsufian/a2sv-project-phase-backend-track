@@ -75,7 +75,7 @@ JWT_SECRET="your_jwt_secret"
 
 ```bash
 git clone https://github.com/ayubsufian/a2sv-project-phase-backend-track.git
-cd task_manager_clean
+cd task_manager_test
 ```
 
 3. Install dependencies
@@ -87,7 +87,7 @@ go mod tidy
 ## Running the API
 
 ```bash
-go run delivery/main.go
+go run cmd/server/main.go
 ```
 
 The server listens on http://localhost:8080.
