@@ -1,0 +1,69 @@
+# This is the name of the GitHub Actions workflow. It will be displayed in the "Actions" tab of your repository.
+name: Go CI
+
+# This section defines the triggers that will cause the workflow to run.
+on:
+  # Run on every push to the main branch.
+  push:
+    branches: ['main']
+  # Run on every pull request that targets the main branch.
+  pull_request:
+    branches: ['main']
+
+# This section defines the jobs that will be executed as part of the workflow.
+jobs:
+  # We define a single job named "build-and-test".
+  build-and-test:
+    # A human-readable name for the job, displayed on GitHub.
+    name: Build and Test
+
+    # The type of virtual machine to run the job on. "ubuntu-latest" is the standard and most efficient choice.
+    runs-on: ubuntu-latest
+
+    # The sequence of steps that make up the job. Each step runs a command or an action.
+    steps:
+      # Step 1: Check out your repository's code so the workflow can access it.
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      # Step 2: Set up the Go programming language environment.
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          # Specify the version of Go you are using in your project.
+          go-version: '1.21'
+
+      # Step 3: Run the linter to check for code style issues and potential bugs.
+      # This is a best practice that helps maintain code quality before running tests.
+      # It uses the official action for golangci-lint, the standard linter for Go.
+      - name: Run Linter
+        uses: golangci/golangci-lint-action@v6
+        with:
+          # Optional: specify the version of the linter to use for consistency.
+          version: v1.59
+
+      # Step 4: Run all the unit tests in the project.
+      # The -v flag provides verbose output.
+      # The -coverprofile flag generates a coverage report file.
+      # The ./... pattern ensures that tests in all subdirectories are run.
+      - name: Run Unit Tests & Generate Coverage
+        run: go test -v -coverprofile=coverage.out ./...
+
+      # Step 5: (Optional but recommended) Verify that the application can be built.
+      # This catches compilation errors that might not be caught by tests alone.
+      - name: Build Application
+        run: go build -v ./cmd/server/main.go
+
+      # Step 6: Upload the coverage report to a third-party service like Codecov.
+      # This step allows you to track test coverage over time and see reports
+      # directly in your pull requests. This directly fulfills the PRD requirement
+      # for "test coverage metrics".
+      - name: Upload Coverage Report to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          # The path to the coverage file generated in the previous step.
+          file: ./coverage.out
+          # For private repositories, you will need to add a CODECOV_TOKEN secret
+          # to your GitHub repository settings. For public repos, this often works
+          # without a token.
+          # token: ${{ secrets.CODECOV_TOKEN }}
